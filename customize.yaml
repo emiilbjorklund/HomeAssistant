@@ -1,0 +1,17 @@
+binary_sensor.remote_ui:
+  hidden: true
+
+person.emil:
+  hidden: true
+
+sensor.emils_iphone_battery_level:
+  hidden: false
+
+sun.sun:
+  hidden: true
+
+device_tracker.emil_gps_iphone:
+  hidden: false
+
+device_tracker.samsung_galaxy_s7:
+  hidden: false

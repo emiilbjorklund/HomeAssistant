@@ -1,0 +1,155 @@
+morning:
+  alias: Good Morning
+  sequence:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.hall_bulb
+  - service: light.turn_on
+    data:
+      entity_id: light.lr_window
+      brightness: 60
+      transition: 5
+  - service: light.turn_on
+    data:
+      entity_id: light.kitchen_window
+      brightness: 100
+      transition: 5
+  - service: light.turn_on
+    data:
+      entity_id: light.bed_emil
+      brightness: 20
+      transition: 5
+  - service: light.turn_on
+    data:
+      entity_id: light.bed_linnea
+      brightness: 20
+      transition: 5
+  - service: light.turn_on
+    data:
+      entity_id: group.lights_hall_ceiling
+      brightness: 30
+      transition: 5
+      
+bed:
+  alias: Good Night
+  sequence:
+  - service: switch.turn_off
+    data:
+      entity_id: switch.hall_bulb
+  - service: switch.turn_off
+    data:
+      entity_id: switch.hall_lightstrip
+  - service: light.turn_on
+    data:
+      entity_id: light.kitchen_window
+      brightness: 100
+      transition: 5
+  - service: light.turn_on
+    data:
+      entity_id: light.lr_window
+      brightness: 100
+      transition: 5
+  - service: light.turn_on
+    data:
+      entity_id: light.bed_emil
+      brightness: 100
+      transition: 5
+  - service: light.turn_on
+    data:
+      entity_id: light.bed_linnea
+      brightness: 100
+      transition: 5
+  - service: light.turn_on
+    data:
+      entity_id: group.lights_hall_ceiling
+      brightness: 50
+      transition: 5
+  
+      
+lights_off:
+  alias: Turn off Lights
+  sequence:
+  - service: switch.turn_off
+    data:
+      entity_id: group.all_switches
+  - service: light.turn_off
+    data:
+      entity_id: group.all_lights
+      transition: 5
+      
+lights_dim:
+  alias: Dim Lights
+  sequence:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.hall_lightstrip
+  - service: switch.turn_off
+    data:
+      entity_id: switch.hall_bulb
+  - service: light.turn_on
+    data:
+      entity_id: light.lr_window
+      brightness: 150
+      transition: 5
+      
+lights_standard:
+  alias: Standard Lights
+  sequence:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.hall_lightstrip
+  - service: switch.turn_on
+    data:
+      entity_id: switch.hall_bulb
+  - service: light.turn_on
+    data:
+      entity_id: light.lr_window
+      brightness: 220
+      transition: 5
+      
+lights_decorative:
+  alias: Decorative Lights
+  sequence:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.hall_lightstrip
+  - service: switch.turn_on
+    data:
+      entity_id: switch.hall_bulb
+      
+lights_fun:
+  alias: Fun Lights
+  sequence:
+  - service: switch.turn_off
+    data:
+      entity_id: switch.hall_lightstrip
+  - service: switch.turn_off
+    data:
+      entity_id: switch.hall_bulb
+  - service: light.turn_on
+    data:
+      entity_id: light.lr_window
+      brightness: 255
+      transition: 5
+      
+cleaning:
+  alias: Cleaning Lights
+  sequence:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.hall_lightstrip
+  - service: switch.turn_on
+    data:
+      entity_id: switch.hall_bulb
+  - service: light.turn_on
+    data:
+      entity_id: group.all_lights
+      brightness: 255
+
+notify_test:
+  alias: Notification Test
+  sequence:
+  - service: notify.ios_emils_iphone
+    data:
+      title: "Home Assistant"
+      message: "Test!"

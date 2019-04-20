@@ -1,0 +1,18 @@
+lights_all:
+  name: "All Lights"
+  entities:
+    - group.all_lights
+    - group.all_switches
+    
+lights_bed:
+  name: "Bed Lights"
+  entities:
+    - light.bed_emil
+    - light.bed_linnea
+
+lights_hall_ceiling:
+  name: "Hall Ceiling Lights"
+  entities:
+    - light.hall_ceiling_1
+    - light.hall_ceiling_2
+    - light.hall_ceiling_3

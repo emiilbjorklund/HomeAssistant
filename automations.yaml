@@ -1,0 +1,214 @@
+- id: MediaPlayerLightsDimDown
+  alias: Dim down Lights when media is playing
+  trigger:
+    - platform: state
+      entity_id: media_player.home_tv
+      to: 'playing'
+  action:
+    service: script.lights_dim
+
+- id: MediaPlayerLightsDimUp
+  alias: Dim up Lights when media is stopped
+  trigger:
+    - platform: state
+      entity_id: media_player.home_tv
+      from: 'playing'
+  action:
+    service: script.lights_standard
+
+- id: EveningLights
+  alias: Lights on after sunset
+  trigger:
+    platform: sun
+    event: sunset
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: device_tracker.samsung_galaxy_s7
+        state: 'home'
+      - condition: state
+        entity_id: device_tracker.emils_iphone
+        state: 'home'
+  action:
+    service: script.lights_standard
+    
+- id: good_night
+  alias: Lights Bedtime
+  trigger:
+    platform: time
+    at: '22:00:00'
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: device_tracker.samsung_galaxy_s7
+        state: 'home'
+      - condition: state
+        entity_id: device_tracker.emils_iphone
+        state: 'home'
+  action:
+    service: script.bed
+
+- id: good_morning
+  alias: Lights Morning
+  trigger:
+    platform: time
+    at: '05:00:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: device_tracker.samsung_galaxy_s7
+            state: 'home'
+          - condition: state
+            entity_id: device_tracker.emils_iphone
+            state: 'home'
+  action:
+    service: script.morning
+    
+- id: Home
+  alias: Lights on if home day
+  trigger:
+      - platform: state
+        entity_id: device_tracker.samsung_galaxy_s7
+        to: 'home'
+      - platform: state
+        entity_id: device_tracker.emils_iphone
+        to: 'home'
+  condition:
+    condition: sun
+    before: sunset
+  action:
+    service: script.lights_decorative
+
+- id: Home night
+  alias: Lights on if home night
+  trigger:
+    - platform: state
+      entity_id: device_tracker.samsung_galaxy_s7
+      to: 'home'
+    - platform: state
+      entity_id: device_tracker.emils_iphone
+      to: 'home'
+  condition:
+    condition: and
+    conditions:
+      - condition: sun
+        after: sunset
+      - condition: time
+        before: '23:00:00'
+  action:
+    service: script.lights_standard
+    
+- id: Away
+  alias: Lights off if away
+  trigger:
+    - platform: state
+      entity_id: device_tracker.samsung_galaxy_s7
+      from: 'home'
+    - platform: state
+      entity_id: device_tracker.emils_iphone
+      from: 'home'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: device_tracker.samsung_galaxy_s7
+        state: 'not_home'
+      - condition: state
+        entity_id: device_tracker.emils_iphone
+        state: 'not_home'
+  action:
+    service: script.lights_off
+
+- id: Notis1
+  alias: Notify if Emil is home
+  trigger:
+    - platform: state
+      entity_id: device_tracker.emils_iphone
+      to: 'home'
+  action:
+    service: notify.ios_emils_iphone
+    data:
+      title: "Home Assistant"
+      message: "Emil is home!"
+      
+- id: Notis2
+  alias: Notify if Linnea is home
+  trigger:
+    - platform: state
+      entity_id: device_tracker.samsung_galaxy_s7
+      to: 'home'
+  action:
+    service: notify.ios_emils_iphone
+    data:
+      title: "Home Assistant"
+      message: "Linnea is home!"
+
+- id: Notis3
+  alias: Notify if Emil is leaving
+  trigger:
+    - platform: state
+      entity_id: device_tracker.emils_iphone
+      from: 'home'
+  action:
+    service: notify.ios_emils_iphone
+    data:
+      title: "Home Assistant"
+      message: "Emil is leaving home!"
+
+- id: Notis4
+  alias: Notify if Linnea is leaving
+  trigger:
+    - platform: state
+      entity_id: device_tracker.samsung_galaxy_s7
+      from: 'home'
+  action:
+    service: notify.ios_emils_iphone
+    data:
+      title: "Home Assistant"
+      message: "Linnea is leaving home!"
+
+- id: Notis5
+  alias: Notify CPU
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.cpu_temperature
+      above: 60
+  action:
+    service: notify.ios_emils_iphone
+    data:
+      title: "Home Assistant"
+      message: "CPU getting hot!"
+
+- id: Sensor_test_on
+  alias: Sensor_test_on
+  trigger:
+    - platform: mqtt
+      topic: "sensor/motion"
+  condition:
+    condition: template
+    value_template: "{{ 'motion' in trigger.payload }}"
+  action:
+    service: script.cleaning
+
+- id: Sensor_test_off
+  alias: Sensor_test_off
+  trigger:
+    - platform: mqtt
+      topic: "sensor/motion"
+  condition:
+    condition: template
+    value_template: "{{ 'idle' in trigger.payload }}"
+  action:
+    service: script.lights_off
