@@ -21,8 +21,8 @@ homekit:
       - switch
       - light
       - script
-      - device_tracker
       - media_player
+      - groups
   entity_config:
     media_player.samsung_tv_remote:
       feature_list:
@@ -54,18 +54,7 @@ device_tracker:
   - platform: bluetooth_tracker
     consider_home: 200
 
-media_player:
-  - platform: samsungtv
-    port: 8001
-    host: 192.168.0.19
-    mac: !secret tv_mac
 
-mqtt:
-  broker: 192.168.0.18
-  port: 1883
-  client_id: hassio
-  username: sensor
-  password: mypw
 
 frontend:
   themes: !include themes.yaml
@@ -87,16 +76,8 @@ panel_iframe:
     icon: mdi:wrench
     url: !secret conf_https
 # YR weather service
+# Example configuration.yaml entry
 sensor:
-  - platform: mqtt
-    name: Motion Sensor
-    state_topic: sensor/pirs
-  - platform: mqtt
-    name: Temperature Sensor
-    state_topic: sensor/temp
-  - platform: mqtt
-    name: Humidity Sensor
-    state_topic: sensor/humi
   - platform: yr
     name: Weather
     forecast: 24

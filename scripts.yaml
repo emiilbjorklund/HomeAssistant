@@ -16,16 +16,6 @@ morning:
       transition: 5
   - service: light.turn_on
     data:
-      entity_id: light.bed_emil
-      brightness: 20
-      transition: 5
-  - service: light.turn_on
-    data:
-      entity_id: light.bed_linnea
-      brightness: 20
-      transition: 5
-  - service: light.turn_on
-    data:
       entity_id: group.lights_hall_ceiling
       brightness: 30
       transition: 5
