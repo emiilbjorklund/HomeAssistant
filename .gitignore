@@ -8,10 +8,15 @@
 !*.md
 
 # Ignore folders.
+tts
+www
+deps
+homeassistant
 .storage
 .cloud
 .google.token
 ._.DS_Store
+.*
 
 # Ensure these YAML files are ignored, otherwise your secret 
 data/credentials will leak.

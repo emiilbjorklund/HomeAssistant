@@ -53,6 +53,9 @@ zone:
 device_tracker:
   - platform: bluetooth_tracker
     consider_home: 200
+    new_device_defaults:
+      track_new_devices: false
+      hide_if_away: false
 
 
 
@@ -101,10 +104,37 @@ sensor:
     # If errors occur, remove degree symbol below
     unit_of_measurement: "°C"
     value_template: '{{ value | multiply(0.001) | round(1) }}'
+  
+input_boolean:
+  auto_lights:
+    name: Circadian Lighting
+    initial: off
+    icon: mdi:theme-light-dark
+
+circadian_lighting:
+  max_colortemp: 5000 
+  min_colortemp: 2857
+  interval: 600
+  transition: 3
+  
+switch:
+  - platform: circadian_lighting
+    name: "Circadian Lighting"
+    lights_ct:
+      - light.lr_window
+    min_brightness: 18
+    max_brightness: 100
+    sleep_entity: input_boolean.auto_lights
+    sleep_state: "on"
+    sleep_colortemp: 5500
+    sleep_brightness: 18
+    disable_entity: device_tracker.emils_iphone
+    disable_state: AWAY
 
 # Text to speech
 tts:
-  - platform: google
+  - platform: google_translate
+    service_name: google_say
 
 group: !include groups.yaml
 automation: !include automations.yaml
