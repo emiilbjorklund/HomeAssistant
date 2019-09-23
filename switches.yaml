@@ -1,0 +1,18 @@
+  - platform: circadian_lighting
+    name: 'circadian'
+    lights_ct:
+      - light.lr_window
+    lights_brightness:
+      - light.lr_window
+      - light.kitchen_window
+      - light.bed_emil
+      - light.bed_linnea
+      - light.hall_ceiling_1
+      - light.hall_ceiling_2
+      - light.hall_ceiling_3
+    min_brightness: 10
+    max_brightness: 80
+    sleep_entity: counter.night_mode
+    sleep_state: 1
+    sleep_brightness: 10
+    sleep_colortemp: 1000

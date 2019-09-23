@@ -1,20 +1,14 @@
 homeassistant:
-  # Name of the location where Home Assistant is running
   name: Home
-  # Location required to calculate the time the sun rises and sets
   latitude: !secret lat_home
   longitude: !secret long_home
-  # Impacts weather/sunrise data (altitude above sea level in meters)
   elevation: 0
-  # metric for Metric, imperial for Imperial
   unit_system: metric
-  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: Europe/Stockholm
-  # Customization file
   customize: !include customize.yaml
 
-# Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
+
 homekit:
   filter:
     include_domains:
@@ -31,24 +25,6 @@ homekit:
     media_player.home_tv:
       feature_list:
         - feature: on_off
-zone:
-  - name: School
-    latitude: !secret lat_school
-    longitude: !secret long_school
-    radius: 250
-    icon: mdi:school
-
-  - name: Work
-    latitude: !secret lat_work
-    longitude: !secret long_work
-    radius: 100
-    icon: mdi:briefcase
-    
-  - name: Home
-    latitude: !secret lat_home
-    longitude: !secret long_home
-    radius: 100
-    icon: mdi:account-multiple
 
 device_tracker:
   - platform: bluetooth_tracker
@@ -57,88 +33,37 @@ device_tracker:
       track_new_devices: false
       hide_if_away: false
 
-
-
-frontend:
-  themes: !include themes.yaml
-# Show the introduction message on startup.
-
-
-# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
   base_url: !secret https
   ssl_certificate: /ssl/fullchain.pem
   ssl_key: /ssl/privkey.pem
-
-# Discover some devices automatically
-discovery:
 
 panel_iframe:
   configurator:
     title: Configurator
     icon: mdi:wrench
     url: !secret conf_https
-# YR weather service
-# Example configuration.yaml entry
-sensor:
-  - platform: yr
-    name: Weather
-    forecast: 24
-    monitored_conditions:
-      - temperature
-      - symbol
-      - precipitation
-      - windSpeed
-      - pressure
-      - windDirection
-      - humidity
-      - fog
-      - cloudiness
-      - lowClouds
-      - mediumClouds
-      - highClouds
-      - dewpointTemperature
-  - platform: command_line
-    name: CPU Temperature
-    command: "cat /sys/class/thermal/thermal_zone0/temp"
-    # If errors occur, remove degree symbol below
-    unit_of_measurement: "°C"
-    value_template: '{{ value | multiply(0.001) | round(1) }}'
-  
-input_boolean:
-  auto_lights:
-    name: Circadian Lighting
-    initial: off
-    icon: mdi:theme-light-dark
-
-circadian_lighting:
-  max_colortemp: 5000 
-  min_colortemp: 2857
-  interval: 600
-  transition: 3
-  
-switch:
-  - platform: circadian_lighting
-    name: "Circadian Lighting"
-    lights_ct:
-      - light.lr_window
-    min_brightness: 18
-    max_brightness: 100
-    sleep_entity: input_boolean.auto_lights
-    sleep_state: "on"
-    sleep_colortemp: 5500
-    sleep_brightness: 18
-    disable_entity: device_tracker.emils_iphone
-    disable_state: AWAY
 
 # Text to speech
 tts:
   - platform: google_translate
     service_name: google_say
 
+counter:
+  night_mode:
+    initial: 0
+    step: 1
+    minimum: 0
+    maximum: 1
+
+frontend:
+  themes: !include themes.yaml
+zone: !include zones.yaml
+sensor: !include sensors.yaml
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
+switch: !include switches.yaml
 
 
 
