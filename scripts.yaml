@@ -7,17 +7,17 @@ morning:
   - service: light.turn_on
     data:
       entity_id: light.lr_window
-      brightness: 60
+      #brightness: 60
       transition: 5
   - service: light.turn_on
     data:
       entity_id: light.kitchen_window
-      brightness: 100
+      #brightness: 100
       transition: 5
   - service: light.turn_on
     data:
       entity_id: group.lights_hall_ceiling
-      brightness: 30
+      #brightness: 30
       transition: 5
       
 bed:
@@ -61,7 +61,10 @@ lights_off:
   sequence:
   - service: switch.turn_off
     data:
-      entity_id: group.all_switches
+      entity_id: switch.hall_bulb
+  - service: switch.turn_off
+    data:
+      entity_id: switch.lr_lightstrip
   - service: light.turn_off
     data:
       entity_id: group.all_lights

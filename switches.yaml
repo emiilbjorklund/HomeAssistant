@@ -10,9 +10,9 @@
       - light.hall_ceiling_1
       - light.hall_ceiling_2
       - light.hall_ceiling_3
-    min_brightness: 10
+    min_brightness: 5
     max_brightness: 80
     sleep_entity: counter.night_mode
     sleep_state: 1
     sleep_brightness: 10
-    sleep_colortemp: 1000
+    sleep_colortemp: 5500
